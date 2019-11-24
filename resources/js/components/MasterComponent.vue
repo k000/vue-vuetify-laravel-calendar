@@ -15,7 +15,7 @@
                 </v-col>
                 <v-col cols="10">
                         <v-text-field label="種目名" required hint="筋トレ種目名を入力してください" v-model="master"></v-text-field>
-                        <v-btn block color="primary" @click="addMaster">Block Button</v-btn>
+                        <v-btn block color="primary" @click="addMaster">種目を追加する</v-btn>
                 </v-col>
 
                 <v-col cols="11">

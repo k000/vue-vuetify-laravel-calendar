@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="header-nav">
         <v-toolbar>
         <v-toolbar-title>筋トレノート</v-toolbar-title>
 
@@ -7,7 +7,9 @@
 
         <template>
 
-
+            <v-btn icon>
+                <a href="/"><v-icon>mdi-laptop</v-icon></a>
+            </v-btn>
             
             <v-btn icon>
                 <a href="/top"><v-icon>mdi-home</v-icon></a>
@@ -26,6 +28,7 @@
                 <a href="/home"><v-icon>mdi-logout</v-icon></a>
             </v-btn>
 
+
         </template>
         </v-toolbar>
     </div>
@@ -38,3 +41,10 @@
         }
     }
 </script>
+
+<style>
+    #header-nav a{
+        text-decoration: none;
+    }
+    
+</style>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Shumoku;
+use Auth;
 
 class ShumokuController extends Controller
 {
@@ -13,7 +14,7 @@ class ShumokuController extends Controller
         $shumoku = new Shumoku();
 
         $shumoku->event = $request->event;
-        $shumoku->user_id = 1;
+        $shumoku->user_id = Auth::id();
 
         $shumoku->save();
 
@@ -22,7 +23,7 @@ class ShumokuController extends Controller
     public function getData(Request $request){
 
         $masters = Shumoku::select('event as shumoku','id')
-                ->where('user_id','=','1')
+                ->where('user_id','=',Auth::id())
                 ->get();
 
         if($masters){
@@ -39,7 +40,7 @@ class ShumokuController extends Controller
     public function deleteMaster(Request $request){
 
         $master = Shumoku::where('id','=',$request->id)
-        ->where('user_id','=','1')
+        ->where('user_id','=',Auth::id())
         ->first();
 
         if($master) 

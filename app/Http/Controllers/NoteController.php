@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Note;
+use Auth;
 
 class NoteController extends Controller
 {
@@ -16,7 +17,7 @@ class NoteController extends Controller
         $note->place = $request->place;
         $note->memo = $request->memo;
         $note->datas = json_encode($request->datas);
-        $note->user_id = 1;
+        $note->user_id = Auth::id();
 
         $note->save();
 
@@ -27,7 +28,7 @@ class NoteController extends Controller
 
         $notes = Note::select('event as name','day as start','place as place','memo as memo','datas','id')
                 ->where('day','like',substr($request->month,0,7).'%')
-                ->where('user_id','=','1')
+                ->where('user_id','=',Auth::id())
                 ->get();  
 
         if($notes){
@@ -48,7 +49,7 @@ class NoteController extends Controller
     public function deleteNote(Request $request){
         
         $note = Note::where('id','=',$request->id)
-            ->where('user_id','=','1')
+            ->where('user_id','=',Auth::id())
             ->first();
 
         if($note) 
@@ -61,7 +62,7 @@ class NoteController extends Controller
     public function updateNote(Request $request){
 
         $note = Note::where('id', '=' , $request->id)
-            ->where('user_id','=','1')
+            ->where('user_id','=',Auth::id())
             ->first();
 
         if($note)

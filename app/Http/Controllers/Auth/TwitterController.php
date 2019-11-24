@@ -30,6 +30,11 @@ class TwitterController extends Controller
   }
  
   private function findOrCreateUser($twitterUser){
+
+
+    //var_dump($twitterUser->id);
+    //dd($twitterUser);
+
       $authUser = User::where('twitter_id', $twitterUser->id)->first();
       if ($authUser){
           return $authUser;
@@ -39,7 +44,7 @@ class TwitterController extends Controller
           'nickname' => $twitterUser->nickname,
           'twitter_id' => $twitterUser->id,
           'avatar' => $twitterUser->avatar_original
- 
+
       ]);
   }
 
