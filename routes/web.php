@@ -11,31 +11,34 @@
 |
 */
 
+
+
 Route::get('/', function () {
-    return view('app/index');
-});
-
-
-Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::get('/master', function () {
-    return view('app/master');
+
+Route::group(['middleware' => 'auth'],function(){
+
+    Route::post('/create','NoteController@store');
+    Route::get('/notes','NoteController@getData');
+    Route::delete('/delete','NoteController@deleteNote');
+    Route::patch('/update','NoteController@updateNote');
+
+    Route::post('master/create','ShumokuController@store');
+    Route::get('/masters','ShumokuController@getData');
+    Route::delete('/master','ShumokuController@deleteMaster');
+ 
+    Route::get('/top', function () {
+        return view('app/index');
+    });
+    Route::get('/master', function () {
+        return view('app/master');
+    });
+
+    
 });
-
-
-
-Route::post('/create','NoteController@store');
-
-Route::post('master/create','ShumokuController@store');
-
-Route::get('/notes','NoteController@getData');
-
-Route::delete('/delete','NoteController@deleteNote');
-Route::patch('/update','NoteController@updateNote');
-
-
+    
 
 
 Auth::routes();

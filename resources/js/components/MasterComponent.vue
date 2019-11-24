@@ -87,22 +87,94 @@ export default {
        
    },
 
+   mounted(){
+
+        this.$store.commit('startLoading')
+
+        axios.get('/masters')
+        .then( res => {
+            this.datas = res.data  
+        })
+        .catch( e => {
+            console.log(e)
+        })
+        .finally(()=>{
+            this.$store.commit('endLoading')
+        })
+       
+
+   },
+
    methods:{
 
-       addMaster(){
-
-           console.log(this)
+       async addMaster(){
 
             if( this.master == "" )
                 return
 
-            // axiosでサーバーに保存します。
+            this.$store.commit('startLoading')
+
+            const params = {
+               event : this.master,
+            }
+
+
+            await axios.post('/master/create',params)
+                .then( res => {
+                    
+                })
+                .catch( e => {
+                    console.log(e)
+                })
+                .finally(()=>{
+                    this.$store.commit('endLoading')
+                })
             
+       },
+
+       async deleteItem(item){
+
+           const index = this.datas.indexOf(item)
+           if(confirm('該当のレコードを削除します?')){ // && this.datas.splice(index, 1)
+
+            this.$store.commit('startLoading')
+
+
+
+            const param = {id:item.id}
+
+                await axios.delete('/master',{data:param})
+                .then( res => {
+                    
+                })
+                .catch( e => {
+                    console.log(e)
+                })
+                .finally(()=>{
+                    this.$store.commit('endLoading')
+                    this.datas.splice(index, 1)
+                })
+
+            }
 
        },
-       deleteItem(item){
-           const index = this.datas.indexOf(item)
-           confirm('該当のレコードを削除します?') && this.datas.splice(index, 1)
+
+
+       async getMasterDate(){
+
+            this.$store.commit('startLoading')
+
+            axios.get('/notes')
+                .then( res => {
+                this.datas = res.data  
+            })
+                .catch( e => {
+                console.log(e)
+            })
+                .finally(()=>{
+                this.$store.commit('endLoading')
+            })
+
        },
 
    },

@@ -1,29 +1,31 @@
 <template>
     <div>
         <v-toolbar>
-        <v-toolbar-title>筋トレ</v-toolbar-title>
+        <v-toolbar-title>筋トレノート</v-toolbar-title>
 
         <v-spacer></v-spacer>
 
         <template>
+
+
+            
+            <v-btn icon>
+                <a href="/top"><v-icon>mdi-home</v-icon></a>
+            </v-btn>
+
+            <v-btn icon>
+                <a href="/master"><v-icon>mdi-playlist-plus</v-icon></a>
+            </v-btn>
+
             <v-btn icon>
                 <v-icon>mdi-export-variant</v-icon>
             </v-btn>
+
+            
             <v-btn icon>
-                <v-icon>mdi-delete-circle</v-icon>
+                <a href="/home"><v-icon>mdi-logout</v-icon></a>
             </v-btn>
-            <v-btn icon>
-                <v-icon>mdi-plus-circle</v-icon>
-            </v-btn>
-            <v-btn icon>
-                <v-icon>mdi-twitter</v-icon>
-            </v-btn>
-             <v-btn icon>
-                <v-icon>mdi-login</v-icon>
-            </v-btn>
-            <v-btn icon>
-                <v-icon>mdi-logout</v-icon>
-            </v-btn>
+
         </template>
         </v-toolbar>
     </div>

@@ -64,8 +64,6 @@ class NoteController extends Controller
             ->where('user_id','=','1')
             ->first();
 
-        \Log::debug($note);
-
         if($note)
             $note->update([
                 'event' => $request->bui,
@@ -77,15 +75,5 @@ class NoteController extends Controller
             return null; 
         
     }
-
-    /*
-        $note->event = $request->bui;
-        $note->day = $request->day;
-        $note->place = $request->place;
-        $note->memo = $request->memo;
-        $note->datas = json_encode($request->datas);
-        $note->user_id = 1;
-    */
-
 
 }

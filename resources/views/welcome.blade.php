@@ -61,6 +61,10 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+            img{
+                width:50%;
+                height:auto;
+            }
         </style>
     </head>
     <body>
@@ -68,35 +72,56 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/top') }}">MyPage</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
                     @endauth
                 </div>
             @endif
 
             <div class="content">
                 <div class="title m-b-md">
-                    
-                    高田健志を知った熱心なキリシタンは翌日聖書でけつを拭いた
-                    
+                    最強の筋トレノート
                 </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+                <p>
+                    筋トレの記録はオンラインで簡単に記録。
+                    <br />
+                    見やすいカレンダー形式で、最強の筋トレ記録をつけよう
+                </p>
+
+                <p>
+                    ログインはtwitter認証なので安心です。<br />
+                    メールアドレスを入力する必要はありません。
+                    <br />
+                    twitterアカウントさえあれば、今すぐ最強のノートを始めることができます
+                </p>
+
+
+
             </div>
+        </div>
+        <div class="content">
+            
+            <h3>
+                見やすいカレンダー
+            </h3>
+            
+            <img alt="ヘルプ" src="{{ asset('/imgs/img1.png') }}">
+            <p>
+                カレンダー形式で表示されるので、いつどのトレーニングをしたか一目でわかるようになっています。
+            </p>
+            
+            <h3>
+                見やすいレイアウト
+            </h3>
+            <img alt="ヘルプ" src="{{ asset('/imgs/img2.png') }}">
+            <p>トレーニング記録は見やすいレイアウトで管理されます。
+                <br />
+                訂正も削除も簡単です
+            </p>
+
         </div>
     </body>
 </html>

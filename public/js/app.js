@@ -2914,12 +2914,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2961,7 +2955,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['getChoiceDay'])),
+  mounted: function mounted() {
+    var _this = this;
+
+    this.$store.commit('startLoading');
+    axios.get('/masters').then(function (res) {
+      _this.$store.commit('setMaster', res);
+    })["catch"](function (e) {
+      console.log(e);
+    })["finally"](function () {
+      _this.$store.commit('endLoading');
+    });
+  },
   methods: {
+    validForm: function validForm() {
+      if (this.memo == "") return false;
+      if (this.bui == "") return false;
+      if (this.place == "") return false;
+      if (this.datas.length == 0) return false;
+      return true;
+    },
     open: function open() {
       //新規モードで開いた時
       this.CreateMode = true;
@@ -2996,35 +3009,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       confirm('該当のレコードを削除します?') && this.datas.splice(index, 1);
     },
     storeData: function storeData() {
-      var _this = this;
+      var _this2 = this;
 
       var params;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function storeData$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              if (!(this.shumoku != "")) {
+              if (this.validForm()) {
                 _context.next = 3;
                 break;
               }
 
+              alert("フォームに未入力の箇所があります");
+              return _context.abrupt("return");
+
+            case 3:
+              if (!(this.shumoku != "")) {
+                _context.next = 6;
+                break;
+              }
+
               if (confirm('保存していない種目がありますが、登録しますか？')) {
-                _context.next = 3;
+                _context.next = 6;
                 break;
               }
 
               return _context.abrupt("return");
 
-            case 3:
+            case 6:
               if (this.CreateMode) {
-                _context.next = 6;
+                _context.next = 9;
                 break;
               }
 
               this.updateData();
               return _context.abrupt("return");
 
-            case 6:
+            case 9:
               this.$store.commit('startLoading');
               params = {
                 bui: this.bui,
@@ -3033,18 +3055,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 datas: this.datas,
                 day: this.getChoiceDay
               };
-              _context.next = 10;
-              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.post('/create', params).then(function (res) {
-                console.log(res);
-              })["catch"](function (e) {
+              _context.next = 13;
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.post('/create', params).then(function (res) {})["catch"](function (e) {
                 console.log(e);
               })["finally"](function () {
-                _this.dialog = false;
+                _this2.dialog = false;
 
-                _this.$store.commit('endLoading');
+                _this2.$store.commit('endLoading');
               }));
 
-            case 10:
+            case 13:
             case "end":
               return _context.stop();
           }
@@ -3065,7 +3085,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.CreateMode = false;
     },
     updateData: function updateData() {
-      var _this2 = this;
+      var _this3 = this;
 
       var params;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function updateData$(_context2) {
@@ -3085,14 +3105,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 id: this.id
               };
               _context2.next = 4;
-              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.patch('/update', params).then(function (res) {
-                console.log(res);
-              })["catch"](function (e) {
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.patch('/update', params).then(function (res) {})["catch"](function (e) {
                 console.log(e);
               })["finally"](function () {
-                _this2.dialog = false;
+                _this3.dialog = false;
 
-                _this2.$store.commit('endLoading');
+                _this3.$store.commit('endLoading');
               }));
 
             case 4:
@@ -3116,6 +3134,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -3222,6 +3242,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
 //
 //
 //
@@ -3301,14 +3324,113 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {},
+  mounted: function mounted() {
+    var _this = this;
+
+    this.$store.commit('startLoading');
+    axios.get('/masters').then(function (res) {
+      _this.datas = res.data;
+    })["catch"](function (e) {
+      console.log(e);
+    })["finally"](function () {
+      _this.$store.commit('endLoading');
+    });
+  },
   methods: {
     addMaster: function addMaster() {
-      console.log(this);
-      if (this.master == "") return; // axiosでサーバーに保存します。
+      var _this2 = this;
+
+      var params;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function addMaster$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (!(this.master == "")) {
+                _context.next = 2;
+                break;
+              }
+
+              return _context.abrupt("return");
+
+            case 2:
+              this.$store.commit('startLoading');
+              params = {
+                event: this.master
+              };
+              _context.next = 6;
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.post('/master/create', params).then(function (res) {})["catch"](function (e) {
+                console.log(e);
+              })["finally"](function () {
+                _this2.$store.commit('endLoading');
+              }));
+
+            case 6:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, null, this);
     },
     deleteItem: function deleteItem(item) {
-      var index = this.datas.indexOf(item);
-      confirm('該当のレコードを削除します?') && this.datas.splice(index, 1);
+      var _this3 = this;
+
+      var index, param;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function deleteItem$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              index = this.datas.indexOf(item);
+
+              if (!confirm('該当のレコードを削除します?')) {
+                _context2.next = 6;
+                break;
+              }
+
+              // && this.datas.splice(index, 1)
+              this.$store.commit('startLoading');
+              param = {
+                id: item.id
+              };
+              _context2.next = 6;
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios["delete"]('/master', {
+                data: param
+              }).then(function (res) {})["catch"](function (e) {
+                console.log(e);
+              })["finally"](function () {
+                _this3.$store.commit('endLoading');
+
+                _this3.datas.splice(index, 1);
+              }));
+
+            case 6:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, null, this);
+    },
+    getMasterDate: function getMasterDate() {
+      var _this4 = this;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function getMasterDate$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              this.$store.commit('startLoading');
+              axios.get('/notes').then(function (res) {
+                _this4.datas = res.data;
+              })["catch"](function (e) {
+                console.log(e);
+              })["finally"](function () {
+                _this4.$store.commit('endLoading');
+              });
+
+            case 2:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, null, this);
     }
   }
 });
@@ -41142,7 +41264,7 @@ var render = function() {
                                     [
                                       _c("v-autocomplete", {
                                         attrs: {
-                                          items: _vm.master,
+                                          items: this.$store.state.master,
                                           label: "トレーニング種目",
                                           required: ""
                                         },
@@ -41276,24 +41398,6 @@ var render = function() {
                                     _c(
                                       "v-icon",
                                       {
-                                        staticClass: "mr-2",
-                                        attrs: { small: "" },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.editItem(item)
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                  edit\n              "
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-icon",
-                                      {
                                         attrs: { small: "" },
                                         on: {
                                           click: function($event) {
@@ -41399,11 +41503,29 @@ var render = function() {
       _c(
         "v-toolbar",
         [
-          _c("v-toolbar-title", [_vm._v("筋トレ")]),
+          _c("v-toolbar-title", [_vm._v("筋トレノート")]),
           _vm._v(" "),
           _c("v-spacer"),
           _vm._v(" "),
           [
+            _c("v-btn", { attrs: { icon: "" } }, [
+              _c(
+                "a",
+                { attrs: { href: "/top" } },
+                [_c("v-icon", [_vm._v("mdi-home")])],
+                1
+              )
+            ]),
+            _vm._v(" "),
+            _c("v-btn", { attrs: { icon: "" } }, [
+              _c(
+                "a",
+                { attrs: { href: "/master" } },
+                [_c("v-icon", [_vm._v("mdi-playlist-plus")])],
+                1
+              )
+            ]),
+            _vm._v(" "),
             _c(
               "v-btn",
               { attrs: { icon: "" } },
@@ -41411,40 +41533,14 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _c(
-              "v-btn",
-              { attrs: { icon: "" } },
-              [_c("v-icon", [_vm._v("mdi-delete-circle")])],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-btn",
-              { attrs: { icon: "" } },
-              [_c("v-icon", [_vm._v("mdi-plus-circle")])],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-btn",
-              { attrs: { icon: "" } },
-              [_c("v-icon", [_vm._v("mdi-twitter")])],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-btn",
-              { attrs: { icon: "" } },
-              [_c("v-icon", [_vm._v("mdi-login")])],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-btn",
-              { attrs: { icon: "" } },
-              [_c("v-icon", [_vm._v("mdi-logout")])],
-              1
-            )
+            _c("v-btn", { attrs: { icon: "" } }, [
+              _c(
+                "a",
+                { attrs: { href: "/home" } },
+                [_c("v-icon", [_vm._v("mdi-logout")])],
+                1
+              )
+            ])
           ]
         ],
         2
@@ -93226,11 +93322,12 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
   state: {
-    choiceDay: "洗濯した日付に変更せなあかん",
+    choiceDay: "",
     list: [],
     textcontent: "",
     noteId: "",
-    isLoading: false
+    isLoading: false,
+    master: ["サンプル"]
   },
   getters: {
     getChoiceDay: function getChoiceDay(state) {
@@ -93255,6 +93352,12 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     endLoading: function endLoading(state) {
       state.isLoading = false;
     },
+    setMaster: function setMaster(state, data) {
+      state.master.length = 0;
+      data.data.forEach(function (e) {
+        state.master.push(e.shumoku);
+      });
+    },
     setChoiceDay: function setChoiceDay(state, choiceDay) {
       state.choiceDay = choiceDay;
     },
@@ -93278,6 +93381,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
     },
     endLoading: function endLoading(context) {
       context.commit('endLoading');
+    },
+    setMaster: function setMaster(context, data) {
+      context.commit('setMaster', data);
     },
     setChoiceDay: function setChoiceDay(context, day) {
       context.commit('setChoiceDay', day);

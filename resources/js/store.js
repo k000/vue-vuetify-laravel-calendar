@@ -11,11 +11,12 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 
     state:{
-        choiceDay:"洗濯した日付に変更せなあかん",
+        choiceDay:"",
         list:[],
         textcontent:"",
         noteId:"",
         isLoading:false,
+        master:["サンプル"]
     },
 
     getters:{
@@ -38,6 +39,16 @@ export default new Vuex.Store({
 
         endLoading(state){
             state.isLoading = false
+        },
+
+        setMaster(state,data){
+            
+            state.master.length = 0
+
+            data.data.forEach(e => {
+                state.master.push(e.shumoku)
+            });
+            
         },
 
 
@@ -68,6 +79,10 @@ export default new Vuex.Store({
 
         endLoading(context){
             context.commit('endLoading')
+        },
+
+        setMaster(context,data){
+            context.commit('setMaster',data)
         },
 
         setChoiceDay(context,day){

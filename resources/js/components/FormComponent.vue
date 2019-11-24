@@ -33,7 +33,7 @@
 
                     <v-col cols="12" sm="12" md="12">
                         <v-autocomplete
-                            :items="master"
+                            :items="this.$store.state.master"
                             label="トレーニング種目"
                             v-model="shumoku"
                             required
@@ -70,13 +70,7 @@
             >
             <!-- slotでactionのitemに流し込む -->
             <template v-slot:item.action="{ item }">
-                <v-icon
-                    small
-                    class="mr-2"
-                    @click="editItem(item)"
-                >
-                    edit
-                </v-icon>
+                
                 <v-icon
                     small
                     @click="deleteItem(item)"
@@ -129,6 +123,7 @@ export default {
       id:"",
       dialog: false,
       master:["ベンチプレス","スクワット"],
+
       memo:"",
       place:"",
       bui:"",
@@ -170,7 +165,39 @@ export default {
        ...mapGetters(['getChoiceDay'])
    },
 
+   mounted(){
+
+      this.$store.commit('startLoading')
+
+      axios.get('/masters')
+        .then( res => {
+          this.$store.commit('setMaster',res)
+        })
+        .catch( e => {
+          console.log(e)
+        })
+        .finally(()=>{
+          this.$store.commit('endLoading')
+        })
+
+   },
+
    methods:{
+
+       validForm(){
+
+           if(this.memo=="")
+               return false
+            if(this.bui=="")
+                return false
+            if(this.place=="")
+                return false
+            if(this.datas.length==0)
+                return false
+            
+            return true
+       },
+
        open(){
            //新規モードで開いた時
            this.CreateMode=true
@@ -206,6 +233,11 @@ export default {
 
         async storeData(){
 
+            if(!this.validForm()){
+                alert("フォームに未入力の箇所があります")
+                return;
+            }
+
             // 種目に値が入ってるときはアラートを出す。
             if(this.shumoku != ""){
                 if(!confirm('保存していない種目がありますが、登録しますか？'))
@@ -230,7 +262,7 @@ export default {
 
             await axios.post('/create',params)
                 .then( res => {
-                    console.log(res)
+                    
                 })
                 .catch( e => {
                     console.log(e)
@@ -241,7 +273,7 @@ export default {
                 })
 
        },
-       
+
        openInEditMode(datas){
            /**
             * Open Eidt Mode
@@ -275,7 +307,7 @@ export default {
 
             await axios.patch('/update',params)
                 .then( res => {
-                    console.log(res)
+                    
                 })
                 .catch( e => {
                     console.log(e)
